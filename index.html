@@ -1,0 +1,2042 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Davin University — Courses</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5F0E8;
+    --dark: #1A1614;
+    --gold: #C9A84C;
+    --gold-light: #E8CB7A;
+    --warm-gray: #8A8178;
+    --card-bg: #FDFAF4;
+    --border: #E2D9C8;
+    --red-accent: #C04B3A;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--dark);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw;
+    height: 64px;
+    border-bottom: 1px solid #2e2a26;
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    color: var(--gold);
+    letter-spacing: 0.04em;
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: #fff; }
+
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: #bbb; font-size: 0.85rem; text-decoration: none;
+    letter-spacing: 0.06em; text-transform: uppercase; font-weight: 500;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  .nav-cta {
+    background: var(--gold); color: var(--dark);
+    border: none; padding: 8px 20px; border-radius: 2px;
+    font-family: 'DM Sans', sans-serif; font-weight: 600;
+    font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase;
+    cursor: pointer; transition: background .2s;
+  }
+  .nav-cta:hover { background: var(--gold-light); }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    background: var(--dark);
+    padding: 90px 5vw 80px;
+    overflow: hidden;
+  }
+
+  .hero-bg-text {
+    position: absolute; top: -10px; left: -10px;
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(100px, 20vw, 220px);
+    font-weight: 900;
+    color: rgba(201,168,76,0.05);
+    white-space: nowrap;
+    user-select: none;
+    pointer-events: none;
+    animation: floatText 8s ease-in-out infinite;
+  }
+
+  @keyframes floatText {
+    0%,100% { transform: translateX(0); }
+    50%      { transform: translateX(-30px); }
+  }
+
+  .hero-badge {
+    display: inline-block;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 4px 14px; border-radius: 100px; margin-bottom: 1.5rem;
+    animation: fadeInUp .6s ease both;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.08;
+    max-width: 700px;
+    animation: fadeInUp .7s .1s ease both;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero p {
+    color: #9e968c;
+    font-size: 1.05rem;
+    max-width: 520px;
+    line-height: 1.7;
+    margin-top: 1.25rem;
+    font-weight: 300;
+    animation: fadeInUp .7s .2s ease both;
+  }
+
+  .hero-stats {
+    display: flex; gap: 3rem;
+    margin-top: 3rem;
+    animation: fadeInUp .7s .3s ease both;
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; font-weight: 700; color: var(--gold);
+  }
+  .stat-label {
+    font-size: 0.75rem; color: #6e6860;
+    text-transform: uppercase; letter-spacing: 0.1em;
+  }
+
+  .hero-line {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    animation: lineGrow 1.5s .5s ease both;
+    transform-origin: left;
+  }
+
+  @keyframes lineGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .main { max-width: 1280px; margin: 0 auto; padding: 60px 5vw; }
+
+  /* ── FILTER BAR ── */
+  .filter-section { margin-bottom: 40px; }
+
+  .filter-top {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap; gap: 1rem;
+  }
+
+  .filter-top h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem; font-weight: 700;
+  }
+
+  .result-count {
+    font-size: 0.85rem; color: var(--warm-gray);
+    letter-spacing: 0.04em;
+  }
+
+  .filter-tags {
+    display: flex; flex-wrap: wrap; gap: 10px;
+  }
+
+  .tag {
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    padding: 7px 18px; border-radius: 100px;
+    font-size: 0.82rem; font-weight: 500;
+    cursor: pointer; transition: all .2s;
+    color: var(--warm-gray);
+  }
+  .tag:hover { border-color: var(--gold); color: var(--dark); }
+  .tag.active {
+    background: var(--dark); border-color: var(--dark);
+    color: var(--gold);
+  }
+
+  /* ── FEATURED STRIP ── */
+  .featured-strip {
+    background: linear-gradient(135deg, var(--dark) 60%, #2a231a);
+    border-radius: 6px;
+    padding: 32px 36px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 2rem; flex-wrap: wrap;
+    margin-bottom: 48px;
+    position: relative; overflow: hidden;
+    animation: fadeInUp .6s .1s ease both;
+  }
+
+  .featured-strip::before {
+    content: '';
+    position: absolute; top: 0; left: 0; bottom: 0;
+    width: 4px;
+    background: var(--gold);
+  }
+
+  .featured-strip h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem; color: #fff;
+    margin-bottom: .4rem;
+  }
+  .featured-strip p { color: #9e968c; font-size: 0.9rem; max-width: 500px; }
+
+  .strip-badge {
+    background: var(--gold); color: var(--dark);
+    font-size: 0.65rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 3px 10px; border-radius: 2px;
+    display: inline-block; margin-bottom: .6rem;
+  }
+
+  .strip-cta {
+    background: var(--gold); color: var(--dark);
+    border: none; padding: 10px 26px; border-radius: 2px;
+    font-family: 'DM Sans', sans-serif; font-weight: 700;
+    font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase;
+    cursor: pointer; white-space: nowrap;
+    transition: background .2s, transform .15s;
+  }
+  .strip-cta:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+  /* ── GRID ── */
+  .course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+  }
+
+  /* ── COURSE CARD ── */
+  .course-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform .25s, box-shadow .25s, border-color .25s;
+    animation: cardIn .5s ease both;
+    display: flex; flex-direction: column;
+  }
+
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 48px rgba(26,22,20,.12);
+    border-color: var(--gold);
+  }
+
+  .card-thumb {
+    height: 160px;
+    position: relative;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .card-thumb-inner {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem; font-weight: 900;
+    color: rgba(255,255,255,0.15);
+    transition: transform .4s ease;
+    letter-spacing: -0.02em;
+  }
+
+  .course-card:hover .card-thumb-inner { transform: scale(1.08); }
+
+  .card-badge {
+    position: absolute; top: 12px; left: 12px;
+    font-size: 0.62rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 3px 10px; border-radius: 100px;
+  }
+
+  .badge-free {
+    background: rgba(201,168,76,0.2);
+    color: var(--gold-light);
+    border: 1px solid rgba(201,168,76,0.4);
+  }
+
+  .badge-paid {
+    background: rgba(192,75,58,0.2);
+    color: #e88070;
+    border: 1px solid rgba(192,75,58,0.4);
+  }
+
+  .card-level {
+    position: absolute; top: 12px; right: 12px;
+    font-size: 0.6rem; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    background: rgba(0,0,0,0.35);
+    padding: 3px 8px; border-radius: 100px;
+    backdrop-filter: blur(4px);
+  }
+
+  .card-body { padding: 22px 22px 18px; flex: 1; display: flex; flex-direction: column; }
+
+  .card-category {
+    font-size: 0.68rem; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: .5rem;
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem; font-weight: 700;
+    line-height: 1.35; margin-bottom: .6rem;
+  }
+
+  .card-desc {
+    font-size: 0.82rem; color: var(--warm-gray);
+    line-height: 1.6; flex: 1;
+  }
+
+  .card-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 16px; padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+
+  .card-meta {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 0.75rem; color: #aaa;
+  }
+
+  .card-meta span { display: flex; align-items: center; gap: 4px; }
+
+  .card-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem; font-weight: 700;
+  }
+
+  .price-free { color: var(--gold); }
+  .price-paid { color: var(--dark); }
+
+  .price-old {
+    font-size: 0.7rem; color: #bbb;
+    text-decoration: line-through; font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    margin-right: 4px;
+  }
+
+  .enroll-btn {
+    width: 100%;
+    background: var(--dark); color: var(--gold);
+    border: 1px solid var(--dark);
+    padding: 10px 0;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: pointer; margin-top: 12px;
+    transition: background .2s, color .2s;
+    border-radius: 2px;
+  }
+
+  .enroll-btn:hover { background: var(--gold); color: var(--dark); }
+  .enroll-btn.free { background: transparent; color: var(--dark); border-color: var(--border); }
+  .enroll-btn.free:hover { background: var(--gold); color: var(--dark); border-color: var(--gold); }
+
+  /* ── EMPTY STATE ── */
+  .empty-state {
+    grid-column: 1/-1;
+    text-align: center;
+    padding: 80px 0;
+    color: var(--warm-gray);
+  }
+  .empty-state .big { font-size: 3rem; margin-bottom: 1rem; }
+  .empty-state p { font-size: 0.95rem; }
+
+  /* ── TICKER ── */
+  .ticker {
+    background: var(--gold);
+    overflow: hidden;
+    height: 36px;
+    display: flex; align-items: center;
+  }
+
+  .ticker-inner {
+    display: flex;
+    gap: 0;
+    animation: ticker 30s linear infinite;
+    white-space: nowrap;
+  }
+
+  .ticker-item {
+    font-size: 0.72rem;
+    font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dark);
+    padding: 0 28px;
+    display: flex; align-items: center; gap: 10px;
+  }
+
+  .ticker-item::after {
+    content: '◆';
+    font-size: 0.4rem;
+  }
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark);
+    padding: 50px 5vw 30px;
+    margin-top: 80px;
+  }
+
+  .footer-top {
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 3rem;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #2a2620;
+  }
+
+  .footer-brand .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; color: var(--gold); margin-bottom: .6rem;
+  }
+
+  .footer-brand p { color: #5e5850; font-size: 0.82rem; max-width: 260px; line-height: 1.6; }
+
+  .footer-col h4 {
+    font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1rem;
+  }
+
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: .5rem; }
+  .footer-col a { color: #7a7268; font-size: 0.82rem; text-decoration: none; transition: color .2s; }
+  .footer-col a:hover { color: var(--cream); }
+
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 24px; flex-wrap: wrap; gap: 1rem;
+  }
+
+  .footer-bottom p { color: #4a4540; font-size: 0.75rem; }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(10,8,6,0.75);
+    backdrop-filter: blur(4px);
+    z-index: 200;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    opacity: 0; pointer-events: none;
+    transition: opacity .3s;
+  }
+
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+  .modal {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    max-width: 520px; width: 100%;
+    padding: 36px;
+    transform: translateY(20px);
+    transition: transform .3s;
+    position: relative;
+  }
+
+  .modal-overlay.open .modal { transform: translateY(0); }
+
+  .modal-close {
+    position: absolute; top: 16px; right: 16px;
+    background: none; border: none;
+    font-size: 1.4rem; cursor: pointer;
+    color: var(--warm-gray); line-height: 1;
+  }
+  .modal-close:hover { color: var(--dark); }
+
+  .modal-cat {
+    font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: .5rem;
+  }
+
+  .modal h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; margin-bottom: .8rem;
+  }
+
+  .modal p { font-size: 0.88rem; color: var(--warm-gray); line-height: 1.7; margin-bottom: 1.2rem; }
+
+  .modal-info {
+    display: flex; gap: 1.5rem; flex-wrap: wrap;
+    background: rgba(201,168,76,0.06);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 14px 18px;
+    margin-bottom: 1.2rem;
+    font-size: 0.8rem;
+  }
+
+  .modal-info div { display: flex; flex-direction: column; gap: 2px; }
+  .modal-info .label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: #aaa; }
+  .modal-info .val { font-weight: 600; color: var(--dark); }
+
+  .modal-price-row {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: .5rem;
+  }
+
+  .modal-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem; font-weight: 700; color: var(--dark);
+  }
+
+  .modal-price.free-price { color: var(--gold); }
+
+  .modal-enroll {
+    background: var(--dark); color: var(--gold);
+    border: none; padding: 13px 32px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700; font-size: 0.82rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: pointer; border-radius: 2px;
+    transition: background .2s, transform .15s;
+  }
+
+  .modal-enroll:hover { background: #2a2318; transform: translateY(-1px); }
+
+  /* ── SEARCH ── */
+  .search-wrap {
+    position: relative; margin-bottom: 1.25rem;
+  }
+
+  .search-wrap input {
+    width: 100%;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 12px 16px 12px 42px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--dark);
+    outline: none;
+    transition: border-color .2s;
+  }
+
+  .search-wrap input:focus { border-color: var(--gold); }
+  .search-wrap input::placeholder { color: #bbb; }
+
+  .search-icon {
+    position: absolute; left: 14px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--warm-gray); font-size: 1rem;
+    pointer-events: none;
+  }
+
+  /* ── HIDDEN ── */
+  .hidden { display: none !important; }
+
+  /* ── AUTH NAV STATE ── */
+  .nav-auth-area { display: flex; align-items: center; gap: 12px; }
+
+  .nav-user-pill {
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 100px;
+    padding: 5px 14px 5px 6px;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .nav-user-pill:hover { background: rgba(255,255,255,0.1); }
+
+  .nav-avatar {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), #8a6a2a);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700; font-size: 0.75rem;
+    color: var(--dark);
+  }
+
+  .nav-username { color: #ddd; font-size: 0.8rem; font-weight: 500; }
+
+  /* ── AUTH MODAL ── */
+  .auth-overlay {
+    position: fixed; inset: 0;
+    background: rgba(10,8,6,0.8);
+    backdrop-filter: blur(6px);
+    z-index: 300;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    opacity: 0; pointer-events: none;
+    transition: opacity .3s;
+  }
+  .auth-overlay.open { opacity: 1; pointer-events: all; }
+
+  .auth-modal {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    max-width: 420px; width: 100%;
+    padding: 40px 36px;
+    transform: translateY(20px);
+    transition: transform .3s;
+    position: relative;
+  }
+  .auth-overlay.open .auth-modal { transform: translateY(0); }
+
+  .auth-close {
+    position: absolute; top: 18px; right: 18px;
+    background: none; border: none;
+    font-size: 1.3rem; cursor: pointer;
+    color: var(--warm-gray); line-height: 1;
+  }
+  .auth-close:hover { color: var(--dark); }
+
+  .auth-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; color: var(--dark);
+    text-align: center; margin-bottom: 4px;
+  }
+  .auth-logo span { color: var(--gold); }
+
+  .auth-subtitle {
+    text-align: center; color: var(--warm-gray);
+    font-size: 0.85rem; margin-bottom: 28px;
+  }
+
+  .auth-tabs {
+    display: flex; background: var(--cream);
+    border-radius: 6px; padding: 4px; margin-bottom: 24px;
+  }
+  .auth-tab {
+    flex: 1; text-align: center; padding: 9px 0;
+    font-size: 0.82rem; font-weight: 600;
+    border-radius: 5px; cursor: pointer;
+    color: var(--warm-gray); transition: all .2s;
+  }
+  .auth-tab.active { background: var(--dark); color: var(--gold); }
+
+  .auth-field { margin-bottom: 16px; }
+  .auth-field label {
+    display: block; font-size: 0.75rem; font-weight: 600;
+    color: var(--warm-gray); margin-bottom: 6px;
+    letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  .auth-field input {
+    width: 100%; padding: 11px 14px;
+    border: 1px solid var(--border); border-radius: 4px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+    background: #fff; color: var(--dark);
+    outline: none; transition: border-color .2s;
+  }
+  .auth-field input:focus { border-color: var(--gold); }
+
+  .auth-error {
+    background: rgba(192,75,58,0.08);
+    border: 1px solid rgba(192,75,58,0.3);
+    color: var(--red-accent);
+    font-size: 0.8rem; padding: 10px 14px;
+    border-radius: 4px; margin-bottom: 16px;
+    display: none;
+  }
+  .auth-error.show { display: block; }
+
+  .auth-submit {
+    width: 100%; background: var(--dark); color: var(--gold);
+    border: none; padding: 13px 0; border-radius: 4px;
+    font-family: 'DM Sans', sans-serif; font-weight: 700;
+    font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase;
+    cursor: pointer; margin-top: 6px;
+    transition: background .2s;
+  }
+  .auth-submit:hover { background: #2a2318; }
+
+  .auth-switch {
+    text-align: center; margin-top: 18px;
+    font-size: 0.82rem; color: var(--warm-gray);
+  }
+  .auth-switch a { color: var(--gold); cursor: pointer; text-decoration: underline; }
+
+  /* ── QUOTE SECTION ── */
+  .quote-section {
+    margin: 70px 0;
+  }
+
+  .quote-header {
+    text-align: center; margin-bottom: 32px;
+  }
+  .quote-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem; font-weight: 700; margin-bottom: 8px;
+  }
+  .quote-header p {
+    color: var(--warm-gray); font-size: 0.9rem;
+  }
+
+  .quote-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+
+  .quote-card {
+    background: var(--dark);
+    border-radius: 6px;
+    padding: 28px 24px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform .25s, box-shadow .25s;
+  }
+  .quote-card:hover { transform: translateY(-4px); box-shadow: 0 14px 36px rgba(26,22,20,.18); }
+
+  .quote-card::before {
+    content: '"';
+    position: absolute; top: -10px; left: 12px;
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem; color: rgba(201,168,76,0.12);
+    line-height: 1;
+  }
+
+  .quote-avatar {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    margin-bottom: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700; font-size: 1.2rem;
+    color: var(--dark);
+    position: relative; z-index: 1;
+  }
+
+  .quote-text {
+    color: #e8e2d8; font-size: 0.92rem; line-height: 1.6;
+    font-style: italic; margin-bottom: 14px;
+    position: relative; z-index: 1;
+    min-height: 70px;
+  }
+
+  .quote-author {
+    color: var(--gold); font-weight: 700; font-size: 0.85rem;
+    position: relative; z-index: 1;
+  }
+  .quote-role {
+    color: #777; font-size: 0.75rem;
+    position: relative; z-index: 1;
+  }
+
+  .quote-tap-hint {
+    font-size: 0.68rem; color: #555;
+    margin-top: 12px;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    position: relative; z-index: 1;
+  }
+
+  /* ── QUOTE DETAIL MODAL ── */
+  .quote-detail-modal .modal {
+    max-width: 480px;
+    text-align: center;
+  }
+  .quote-detail-avatar {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700; font-size: 1.8rem;
+    color: var(--dark);
+  }
+  .quote-detail-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem; font-style: italic;
+    line-height: 1.5; color: var(--dark);
+    margin-bottom: 18px;
+  }
+  .quote-detail-author { font-weight: 700; font-size: 0.95rem; }
+  .quote-detail-role { color: var(--warm-gray); font-size: 0.82rem; margin-bottom: 16px; }
+  .quote-detail-context {
+    border-top: 1px solid var(--border);
+    padding-top: 16px; margin-top: 8px;
+    font-size: 0.85rem; color: var(--warm-gray);
+    line-height: 1.6; text-align: left;
+  }
+
+  /* ── DASHBOARD ── */
+  .dashboard-banner {
+    background: linear-gradient(135deg, var(--dark), #2a231a);
+    border-radius: 6px;
+    padding: 28px 32px;
+    margin-bottom: 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .dashboard-greeting h3 {
+    font-family: 'Playfair Display', serif;
+    color: #fff; font-size: 1.3rem; margin-bottom: 4px;
+  }
+  .dashboard-greeting p { color: #999; font-size: 0.85rem; }
+  .dashboard-logout {
+    background: transparent; border: 1px solid #555;
+    color: #ccc; padding: 9px 20px; border-radius: 4px;
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.05em;
+    text-transform: uppercase; cursor: pointer;
+    transition: border-color .2s, color .2s;
+  }
+  .dashboard-logout:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* ── PAYMENT MODAL ── */
+  .payment-modal .modal {
+    max-width: 480px;
+  }
+
+  .payment-step { display: block; }
+  .payment-step.hidden { display: none; }
+
+  .payment-breadcrumb {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 20px;
+  }
+  .payment-crumb {
+    font-size: 0.7rem; font-weight: 600;
+    color: var(--warm-gray); letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .payment-crumb.active { color: var(--dark); }
+  .payment-crumb-sep { color: var(--border); font-size: 0.7rem; }
+
+  .payment-summary {
+    background: var(--cream);
+    border-radius: 6px;
+    padding: 16px 18px;
+    margin-bottom: 20px;
+  }
+  .payment-summary-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700; font-size: 1rem; margin-bottom: 4px;
+  }
+  .payment-summary-row {
+    display: flex; justify-content: space-between;
+    font-size: 0.85rem; color: var(--warm-gray);
+    margin-top: 8px; padding-top: 8px;
+    border-top: 1px solid var(--border);
+  }
+  .payment-summary-row strong { color: var(--dark); font-size: 1.1rem; }
+
+  .payment-section-label {
+    font-size: 0.75rem; font-weight: 700;
+    color: var(--warm-gray); text-transform: uppercase;
+    letter-spacing: 0.05em; margin-bottom: 10px;
+  }
+
+  .payment-methods-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 10px; margin-bottom: 18px;
+  }
+
+  .payment-method-option {
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all .15s;
+    background: #fff;
+  }
+  .payment-method-option:hover { border-color: var(--gold); }
+  .payment-method-option.selected {
+    border-color: var(--dark); background: var(--cream);
+  }
+  .payment-method-icon {
+    font-size: 1.4rem; margin-bottom: 6px;
+  }
+  .payment-method-name {
+    font-size: 0.7rem; font-weight: 600; color: var(--dark);
+  }
+
+  .va-display {
+    background: var(--dark);
+    border-radius: 8px;
+    padding: 24px 20px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .va-label {
+    color: #999; font-size: 0.7rem; text-transform: uppercase;
+    letter-spacing: 0.08em; margin-bottom: 8px;
+  }
+  .va-number {
+    color: var(--gold); font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; font-weight: 700;
+    letter-spacing: 0.04em; margin-bottom: 12px;
+    word-break: break-all;
+  }
+  .va-copy-btn {
+    background: transparent; border: 1px solid #555;
+    color: #ccc; padding: 6px 16px; border-radius: 4px;
+    font-size: 0.7rem; cursor: pointer; letter-spacing: 0.04em;
+    text-transform: uppercase; transition: border-color .2s;
+  }
+  .va-copy-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  .va-timer {
+    color: var(--red-accent); font-size: 0.78rem;
+    margin-top: 14px; font-weight: 600;
+  }
+
+  .va-instructions {
+    background: var(--cream);
+    border-radius: 6px; padding: 14px 16px;
+    font-size: 0.8rem; color: var(--warm-gray);
+    line-height: 1.7; margin-bottom: 18px;
+  }
+  .va-instructions ol { padding-left: 18px; }
+
+  .payment-back-btn {
+    background: transparent; border: 1px solid var(--border);
+    color: var(--warm-gray); padding: 11px 0; width: 100%;
+    border-radius: 4px; font-size: 0.8rem; font-weight: 600;
+    cursor: pointer; margin-top: 8px; transition: border-color .2s;
+  }
+  .payment-back-btn:hover { border-color: var(--dark); color: var(--dark); }
+
+  .payment-success-icon {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: #2D5C47; display: flex; align-items: center;
+    justify-content: center; margin: 0 auto 18px;
+    font-size: 1.8rem; color: #fff;
+  }
+  .payment-success-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; font-weight: 700;
+    text-align: center; margin-bottom: 8px;
+  }
+  .payment-success-text {
+    text-align: center; color: var(--warm-gray);
+    font-size: 0.85rem; margin-bottom: 20px; line-height: 1.6;
+  }
+
+  /* ── FOOTER v2 ── */
+  .footer-v2 {
+    background: var(--dark);
+    padding: 0;
+    margin-top: 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .footer-cta-banner {
+    background: linear-gradient(135deg, #2a2318, #1A1614);
+    padding: 56px 5vw;
+    text-align: center;
+    border-bottom: 1px solid #2e2a26;
+    position: relative;
+  }
+
+  .footer-cta-banner h2 {
+    font-family: 'Playfair Display', serif;
+    color: #fff; font-size: clamp(1.6rem, 3vw, 2.2rem);
+    margin-bottom: 12px;
+  }
+  .footer-cta-banner h2 em { color: var(--gold); font-style: italic; }
+  .footer-cta-banner p {
+    color: #999; font-size: 0.95rem; margin-bottom: 24px;
+  }
+
+  .footer-main {
+    padding: 56px 5vw 0;
+  }
+
+  .footer-grid-v2 {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr 1.3fr;
+    gap: 40px;
+    padding-bottom: 40px;
+  }
+
+  .footer-brand-v2 .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; color: var(--gold); margin-bottom: 12px;
+  }
+  .footer-brand-v2 p {
+    color: #7a7268; font-size: 0.85rem; line-height: 1.7;
+    max-width: 280px; margin-bottom: 20px;
+  }
+
+  .footer-social-row {
+    display: flex; gap: 10px;
+  }
+  .footer-social-icon {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1px solid #3a342c;
+    display: flex; align-items: center; justify-content: center;
+    color: #999; font-size: 0.9rem;
+    transition: border-color .2s, color .2s;
+    cursor: pointer;
+  }
+  .footer-social-icon:hover { border-color: var(--gold); color: var(--gold); }
+
+  .footer-col-v2 h4 {
+    font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 18px;
+  }
+  .footer-col-v2 ul { list-style: none; }
+  .footer-col-v2 li { margin-bottom: 12px; }
+  .footer-col-v2 a {
+    color: #837b71; font-size: 0.85rem; text-decoration: none;
+    transition: color .2s;
+  }
+  .footer-col-v2 a:hover { color: var(--cream); }
+
+  .footer-contact-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    margin-bottom: 16px;
+  }
+  .footer-contact-icon {
+    width: 28px; height: 28px; flex-shrink: 0;
+    border-radius: 50%; background: rgba(201,168,76,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem; color: var(--gold);
+  }
+  .footer-contact-text {
+    font-size: 0.82rem; color: #aaa; line-height: 1.5;
+  }
+  .footer-contact-text strong { display: block; color: #ddd; font-size: 0.78rem; font-weight: 600; margin-bottom: 2px; }
+
+  .footer-bottom-v2 {
+    border-top: 1px solid #2a2620;
+    padding: 22px 5vw;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-bottom-v2 p { color: #524c44; font-size: 0.78rem; }
+  .footer-bottom-links { display: flex; gap: 20px; }
+  .footer-bottom-links a { color: #524c44; font-size: 0.78rem; text-decoration: none; transition: color .2s; }
+  .footer-bottom-links a:hover { color: var(--gold); }
+
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#"><span>Davin</span> University</a>
+  <ul class="nav-links">
+    <li><a href="#">Courses</a></li>
+    <li><a href="#">Instructors</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Blog</a></li>
+  </ul>
+  <div class="nav-auth-area" id="nav-auth-area">
+    <button class="nav-cta" id="nav-signup-btn" onclick="openAuth('signup')">Sign Up Free</button>
+  </div>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner" id="ticker">
+    <div class="ticker-item">Kelas Matematika Baru Tersedia</div>
+    <div class="ticker-item">Diskon 30% Untuk Kelas Ekonomi</div>
+    <div class="ticker-item">Batch Manajemen Bisnis Dibuka</div>
+    <div class="ticker-item">Sertifikat Diakui Industri</div>
+    <div class="ticker-item">500+ Siswa Aktif</div>
+    <div class="ticker-item">Kelas Coding Pemula Tersedia</div>
+    <div class="ticker-item">Kelas Matematika Baru Tersedia</div>
+    <div class="ticker-item">Diskon 30% Untuk Kelas Ekonomi</div>
+    <div class="ticker-item">Batch Manajemen Bisnis Dibuka</div>
+    <div class="ticker-item">Sertifikat Diakui Industri</div>
+    <div class="ticker-item">500+ Siswa Aktif</div>
+    <div class="ticker-item">Kelas Coding Pemula Tersedia</div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-text">LEARN</div>
+  <div class="hero-badge">✦ Davin University — Est. 2025</div>
+  <h1>Knowledge Is<br>Your <em>Greatest</em><br>Asset.</h1>
+  <p>Ratusan kelas dari instruktur berpengalaman. Mulai gratis, tingkatkan kapan saja. Belajar sesuai ritmu kamu.</p>
+  <div class="hero-stats">
+    <div>
+      <div class="stat-num">48+</div>
+      <div class="stat-label">Courses</div>
+    </div>
+    <div>
+      <div class="stat-num">500+</div>
+      <div class="stat-label">Students</div>
+    </div>
+    <div>
+      <div class="stat-num">12</div>
+      <div class="stat-label">Instructors</div>
+    </div>
+    <div>
+      <div class="stat-num">4.8★</div>
+      <div class="stat-label">Rating</div>
+    </div>
+  </div>
+  <div class="hero-line"></div>
+</section>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- DASHBOARD BANNER (shown only when logged in) -->
+  <div class="dashboard-banner hidden" id="dashboard-banner">
+    <div class="dashboard-greeting">
+      <h3 id="dashboard-greeting-name">Selamat datang kembali!</h3>
+      <p>Lanjutkan perjalanan belajarmu di Davin University.</p>
+    </div>
+    <button class="dashboard-logout" onclick="logout()">Sign Out</button>
+  </div>
+
+  <!-- FEATURED STRIP -->
+  <div class="featured-strip">
+    <div>
+      <div class="strip-badge">✦ Featured Program</div>
+      <h3>Macro Economics Intensive</h3>
+      <p>Dari siklus utang Dalio sampai dinamika pasar global — kelas paling komprehensif untuk investor dan pengambil keputusan bisnis.</p>
+    </div>
+    <button class="strip-cta" onclick="openModal('macro-intensive')">Lihat Program →</button>
+  </div>
+
+  <!-- FILTER SECTION -->
+  <div class="filter-section">
+    <div class="filter-top">
+      <h2>All Courses</h2>
+      <span class="result-count" id="result-count">Menampilkan 12 kelas</span>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="Cari kelas, topik, atau instruktur…" id="search-input" oninput="filterCourses()">
+    </div>
+
+    <!-- TAGS -->
+    <div class="filter-tags" id="filter-tags">
+      <button class="tag active" data-filter="all" onclick="setFilter(this,'all')">Semua</button>
+      <button class="tag" data-filter="gratis" onclick="setFilter(this,'gratis')">Gratis</button>
+      <button class="tag" data-filter="berbayar" onclick="setFilter(this,'berbayar')">Berbayar</button>
+      <button class="tag" data-filter="matematika" onclick="setFilter(this,'matematika')">Matematika</button>
+      <button class="tag" data-filter="ekonomi" onclick="setFilter(this,'ekonomi')">Ekonomi</button>
+      <button class="tag" data-filter="manajemen" onclick="setFilter(this,'manajemen')">Manajemen</button>
+      <button class="tag" data-filter="teknologi" onclick="setFilter(this,'teknologi')">Teknologi</button>
+      <button class="tag" data-filter="investasi" onclick="setFilter(this,'investasi')">Investasi</button>
+      <button class="tag" data-filter="bahasa" onclick="setFilter(this,'bahasa')">Bahasa</button>
+    </div>
+  </div>
+
+  <!-- COURSE GRID -->
+  <div class="course-grid" id="course-grid"></div>
+
+  <!-- QUOTE SECTION -->
+  <div class="quote-section">
+    <div class="quote-header">
+      <h2>Kata Mereka yang Sudah Sampai Puncak</h2>
+      <p>Wisdom dari para investor & pemimpin bisnis dunia. Klik untuk baca konteks lengkapnya.</p>
+    </div>
+    <div class="quote-grid" id="quote-grid"></div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer-v2">
+
+  <!-- CTA Banner -->
+  <div class="footer-cta-banner">
+    <h2>Siap Mulai Perjalanan <em>Belajarmu?</em></h2>
+    <p>Gabung dengan 500+ siswa yang sudah membangun masa depan finansial mereka.</p>
+    <button class="nav-cta" onclick="openAuth('signup')">Daftar Gratis Sekarang</button>
+  </div>
+
+  <div class="footer-main">
+    <div class="footer-grid-v2">
+
+      <!-- Brand -->
+      <div class="footer-brand-v2">
+        <div class="logo">Davin University</div>
+        <p>Platform pendidikan untuk generasi yang serius membangun masa depan finansial dan intelektual.</p>
+        <div class="footer-social-row">
+          <div class="footer-social-icon">in</div>
+          <div class="footer-social-icon">ig</div>
+          <div class="footer-social-icon">yt</div>
+          <div class="footer-social-icon">tw</div>
+        </div>
+      </div>
+
+      <!-- Courses -->
+      <div class="footer-col-v2">
+        <h4>Courses</h4>
+        <ul>
+          <li><a href="#">Matematika</a></li>
+          <li><a href="#">Ekonomi</a></li>
+          <li><a href="#">Manajemen</a></li>
+          <li><a href="#">Investasi</a></li>
+          <li><a href="#">Teknologi</a></li>
+        </ul>
+      </div>
+
+      <!-- University -->
+      <div class="footer-col-v2">
+        <h4>University</h4>
+        <ul>
+          <li><a href="#">Tentang Kami</a></li>
+          <li><a href="#">Instruktur</a></li>
+          <li><a href="#">Karir</a></li>
+          <li><a href="#">Blog</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div class="footer-col-v2">
+        <h4>Hubungi Kami</h4>
+        <div class="footer-contact-item">
+          <div class="footer-contact-icon">☏</div>
+          <div class="footer-contact-text">
+            <strong>Admin / WhatsApp</strong>
+            +62 848-2848-44
+          </div>
+        </div>
+        <div class="footer-contact-item">
+          <div class="footer-contact-icon">✉</div>
+          <div class="footer-contact-text">
+            <strong>Email Support</strong>
+            hello@davinuniversity.com
+          </div>
+        </div>
+        <div class="footer-contact-item">
+          <div class="footer-contact-icon">⌖</div>
+          <div class="footer-contact-text">
+            <strong>Head Office</strong>
+            Level 12, Princes Tower<br>Auckland CBD, New Zealand 1010
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer-bottom-v2">
+    <p>© 2025 Davin University. All rights reserved.</p>
+    <div class="footer-bottom-links">
+      <a href="#">FAQ</a>
+      <a href="#">Kebijakan Privasi</a>
+      <a href="#">Syarat & Ketentuan</a>
+    </div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-cat" id="modal-cat"></div>
+    <h2 id="modal-title"></h2>
+    <p id="modal-desc"></p>
+    <div class="modal-info">
+      <div><span class="label">Level</span><span class="val" id="modal-level"></span></div>
+      <div><span class="label">Durasi</span><span class="val" id="modal-duration"></span></div>
+      <div><span class="label">Pertemuan</span><span class="val" id="modal-sessions"></span></div>
+      <div><span class="label">Sertifikat</span><span class="val" id="modal-cert"></span></div>
+    </div>
+    <div class="modal-price-row">
+      <div id="modal-price-wrap"></div>
+      <button class="modal-enroll" id="modal-enroll-btn">Daftar Sekarang</button>
+    </div>
+  </div>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="auth-overlay" id="auth-overlay" onclick="closeAuthOutside(event)">
+  <div class="auth-modal">
+    <button class="auth-close" onclick="closeAuth()">✕</button>
+    <div class="auth-logo"><span>Davin</span> University</div>
+    <div class="auth-subtitle">Mulai belajar hari ini, gratis.</div>
+
+    <div class="auth-tabs">
+      <div class="auth-tab active" id="tab-signup" onclick="switchAuthTab('signup')">Sign Up</div>
+      <div class="auth-tab" id="tab-signin" onclick="switchAuthTab('signin')">Sign In</div>
+    </div>
+
+    <div class="auth-error" id="auth-error"></div>
+
+    <!-- SIGN UP FORM -->
+    <form id="form-signup" onsubmit="handleSignup(event)">
+      <div class="auth-field">
+        <label>Nama Lengkap</label>
+        <input type="text" id="signup-name" placeholder="Wilbert Davin" required>
+      </div>
+      <div class="auth-field">
+        <label>Username</label>
+        <input type="text" id="signup-username" placeholder="wilbertdavin" required>
+      </div>
+      <div class="auth-field">
+        <label>Password</label>
+        <input type="password" id="signup-password" placeholder="Minimal 6 karakter" required>
+      </div>
+      <button type="submit" class="auth-submit">Buat Akun</button>
+    </form>
+
+    <!-- SIGN IN FORM -->
+    <form id="form-signin" class="hidden" onsubmit="handleSignin(event)">
+      <div class="auth-field">
+        <label>Username</label>
+        <input type="text" id="signin-username" placeholder="wilbertdavin" required>
+      </div>
+      <div class="auth-field">
+        <label>Password</label>
+        <input type="password" id="signin-password" placeholder="••••••••" required>
+      </div>
+      <button type="submit" class="auth-submit">Masuk</button>
+    </form>
+
+    <div class="auth-switch" id="auth-switch-text">
+      Sudah punya akun? <a onclick="switchAuthTab('signin')">Sign In di sini</a>
+    </div>
+  </div>
+</div>
+
+<!-- QUOTE DETAIL MODAL -->
+<div class="modal-overlay quote-detail-modal" id="quote-modal-overlay" onclick="closeQuoteModalOutside(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeQuoteModal()">✕</button>
+    <div class="quote-detail-avatar" id="quote-detail-avatar"></div>
+    <div class="quote-detail-text" id="quote-detail-text"></div>
+    <div class="quote-detail-author" id="quote-detail-author"></div>
+    <div class="quote-detail-role" id="quote-detail-role"></div>
+    <div class="quote-detail-context" id="quote-detail-context"></div>
+  </div>
+</div>
+
+<!-- PAYMENT MODAL -->
+<div class="modal-overlay payment-modal" id="payment-modal-overlay" onclick="closePaymentModalOutside(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closePaymentModal()">✕</button>
+
+    <div class="payment-breadcrumb">
+      <span class="payment-crumb active" id="crumb-1">1. Pilih Metode</span>
+      <span class="payment-crumb-sep">→</span>
+      <span class="payment-crumb" id="crumb-2">2. Bayar</span>
+      <span class="payment-crumb-sep">→</span>
+      <span class="payment-crumb" id="crumb-3">3. Selesai</span>
+    </div>
+
+    <!-- Order Summary (always visible on step 1 & 2) -->
+    <div class="payment-summary" id="payment-summary-box">
+      <div class="payment-summary-title" id="pay-course-title">Nama Kelas</div>
+      <div style="font-size:0.8rem;color:var(--warm-gray)" id="pay-course-cat">Kategori</div>
+      <div class="payment-summary-row">
+        <span>Total Pembayaran</span>
+        <strong id="pay-course-price">Rp 0</strong>
+      </div>
+    </div>
+
+    <!-- STEP 1: Choose payment method -->
+    <div class="payment-step" id="payment-step-1">
+      <div class="payment-section-label">Pilih Metode Pembayaran</div>
+      <div class="payment-methods-grid" id="payment-methods-grid">
+        <!-- filled by JS -->
+      </div>
+      <button class="auth-submit" id="payment-continue-btn" onclick="goToPaymentStep2()" disabled>Lanjutkan</button>
+    </div>
+
+    <!-- STEP 2: VA / Payment instructions + email -->
+    <div class="payment-step hidden" id="payment-step-2">
+      <div class="va-display">
+        <div class="va-label" id="va-method-label">Virtual Account BCA</div>
+        <div class="va-number" id="va-number">8808 1234 5678 9012</div>
+        <button class="va-copy-btn" onclick="copyVA()">Copy Nomor</button>
+        <div class="va-timer">⏱ Bayar sebelum: 23:59:59 (sesi demo)</div>
+      </div>
+
+      <div class="va-instructions">
+        <strong>Cara Pembayaran:</strong>
+        <ol>
+          <li>Buka aplikasi m-banking / e-wallet kamu</li>
+          <li>Pilih menu Transfer / Bayar ke Virtual Account</li>
+          <li>Masukkan nomor VA di atas</li>
+          <li>Konfirmasi nominal & selesaikan pembayaran</li>
+        </ol>
+      </div>
+
+      <div class="auth-field">
+        <label>Email untuk Pengiriman Modul</label>
+        <input type="email" id="payment-email" placeholder="namakamu@email.com" required>
+      </div>
+
+      <button class="auth-submit" onclick="confirmPayment()">Saya Sudah Membayar</button>
+      <button class="payment-back-btn" onclick="goToPaymentStep1()">← Ganti Metode Pembayaran</button>
+    </div>
+
+    <!-- STEP 3: Success -->
+    <div class="payment-step hidden" id="payment-step-3">
+      <div class="payment-success-icon">✓</div>
+      <div class="payment-success-title">Pembayaran Berhasil!</div>
+      <div class="payment-success-text">
+        Terima kasih telah mendaftar. Modul dan materi kelas <strong id="pay-success-course"></strong> akan dikirimkan ke <strong id="pay-success-email"></strong> dalam beberapa menit.
+      </div>
+      <button class="auth-submit" onclick="closePaymentModal()">Selesai</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const COURSES = [
+  {
+    id: 'aljabar-dasar',
+    cat: 'Matematika', catKey: 'matematika',
+    title: 'Aljabar Dasar untuk Semua',
+    desc: 'Fondasi aljabar dari nol: variabel, persamaan, fungsi. Cocok untuk pelajar SMA & mahasiswa baru.',
+    level: 'Pemula', duration: '4 Minggu', sessions: '12 Sesi', cert: 'Ya',
+    free: true, price: 0, oldPrice: null,
+    color: ['#1d3a2f', '#2d5c47'],
+    icon: '∑',
+    rating: 4.8, students: 220,
+  },
+  {
+    id: 'kalkulus',
+    cat: 'Matematika', catKey: 'matematika',
+    title: 'Kalkulus Integral & Diferensial',
+    desc: 'Turunan, integral, dan aplikasinya dalam fisika, ekonomi, dan teknik secara sistematis.',
+    level: 'Menengah', duration: '8 Minggu', sessions: '24 Sesi', cert: 'Ya',
+    free: false, price: 299000, oldPrice: 499000,
+    color: ['#1d2c3a', '#2d4a62'],
+    icon: '∫',
+    rating: 4.9, students: 145,
+  },
+  {
+    id: 'statistika',
+    cat: 'Matematika', catKey: 'matematika',
+    title: 'Statistika & Probabilitas',
+    desc: 'Dari distribusi data hingga uji hipotesis. Penting untuk riset, bisnis, dan data science.',
+    level: 'Menengah', duration: '6 Minggu', sessions: '18 Sesi', cert: 'Ya',
+    free: false, price: 249000, oldPrice: 399000,
+    color: ['#2a1d3a', '#463262'],
+    icon: 'σ',
+    rating: 4.7, students: 98,
+  },
+  {
+    id: 'ekonomi-mikro',
+    cat: 'Ekonomi', catKey: 'ekonomi',
+    title: 'Ekonomi Mikro: Supply & Demand',
+    desc: 'Pahami bagaimana harga terbentuk, perilaku konsumen, dan mekanisme pasar dari akar.',
+    level: 'Pemula', duration: '4 Minggu', sessions: '12 Sesi', cert: 'Ya',
+    free: true, price: 0, oldPrice: null,
+    color: ['#3a2a1d', '#624632'],
+    icon: '⚖',
+    rating: 4.8, students: 312,
+  },
+  {
+    id: 'makro-dalio',
+    cat: 'Ekonomi', catKey: 'ekonomi',
+    title: 'Makroekonomi: Framework Ray Dalio',
+    desc: 'Siklus utang jangka pendek & panjang, credit cycle, dan bagaimana membaca mesin ekonomi global.',
+    level: 'Lanjutan', duration: '10 Minggu', sessions: '30 Sesi', cert: 'Ya',
+    free: false, price: 499000, oldPrice: 799000,
+    color: ['#1a1614', '#2e2620'],
+    icon: '◉',
+    rating: 5.0, students: 87,
+    featured: true,
+  },
+  {
+    id: 'keuangan-publik',
+    cat: 'Ekonomi', catKey: 'ekonomi',
+    title: 'Keuangan Publik & Fiskal',
+    desc: 'APBN, pajak, defisit, dan bagaimana kebijakan fiskal mempengaruhi pertumbuhan ekonomi.',
+    level: 'Menengah', duration: '5 Minggu', sessions: '15 Sesi', cert: 'Ya',
+    free: false, price: 199000, oldPrice: 299000,
+    color: ['#1a2a1d', '#2d4a30'],
+    icon: '₿',
+    rating: 4.6, students: 64,
+  },
+  {
+    id: 'manajemen-bisnis',
+    cat: 'Manajemen', catKey: 'manajemen',
+    title: 'Manajemen Bisnis Fundamental',
+    desc: 'Perencanaan strategis, struktur organisasi, kepemimpinan, dan pengambilan keputusan bisnis.',
+    level: 'Pemula', duration: '6 Minggu', sessions: '18 Sesi', cert: 'Ya',
+    free: true, price: 0, oldPrice: null,
+    color: ['#2a1a2a', '#4a2e4a'],
+    icon: '▲',
+    rating: 4.7, students: 278,
+  },
+  {
+    id: 'keuangan-perusahaan',
+    cat: 'Manajemen', catKey: 'manajemen',
+    title: 'Keuangan Perusahaan',
+    desc: 'Laporan keuangan, valuasi bisnis, NPV, IRR, dan analisis investasi modal untuk manajer.',
+    level: 'Menengah', duration: '7 Minggu', sessions: '21 Sesi', cert: 'Ya',
+    free: false, price: 349000, oldPrice: 549000,
+    color: ['#1d1d2a', '#2e2e4a'],
+    icon: '◈',
+    rating: 4.9, students: 122,
+  },
+  {
+    id: 'investasi-saham',
+    cat: 'Investasi', catKey: 'investasi',
+    title: 'Investasi Saham Pemula',
+    desc: 'Cara baca laporan keuangan, valuasi saham dasar (P/E, PBV), dan cara mulai di IDX.',
+    level: 'Pemula', duration: '5 Minggu', sessions: '15 Sesi', cert: 'Ya',
+    free: false, price: 249000, oldPrice: 399000,
+    color: ['#1a2a1a', '#2e4a2e'],
+    icon: '📈',
+    rating: 4.8, students: 340,
+  },
+  {
+    id: 'crypto-dasar',
+    cat: 'Investasi', catKey: 'investasi',
+    title: 'Crypto & Blockchain Fundamentals',
+    desc: 'BTC, ETH, DeFi, altcoin cycles — dari cara kerja blockchain hingga strategi alokasi aset crypto.',
+    level: 'Pemula', duration: '4 Minggu', sessions: '12 Sesi', cert: 'Ya',
+    free: true, price: 0, oldPrice: null,
+    color: ['#1a1a2a', '#2e2e52'],
+    icon: '₿',
+    rating: 4.9, students: 520,
+  },
+  {
+    id: 'python-dasar',
+    cat: 'Teknologi', catKey: 'teknologi',
+    title: 'Python untuk Pemula',
+    desc: 'Belajar programming dari nol menggunakan Python — variable, fungsi, loop, dan logika dasar.',
+    level: 'Pemula', duration: '6 Minggu', sessions: '18 Sesi', cert: 'Ya',
+    free: true, price: 0, oldPrice: null,
+    color: ['#1d2a1d', '#2c4030'],
+    icon: '⌥',
+    rating: 4.7, students: 415,
+  },
+  {
+    id: 'english-bisnis',
+    cat: 'Bahasa', catKey: 'bahasa',
+    title: 'English for Business & Finance',
+    desc: 'Bahasa Inggris konteks keuangan, presentasi, dan negosiasi bisnis internasional.',
+    level: 'Menengah', duration: '8 Minggu', sessions: '24 Sesi', cert: 'Ya',
+    free: false, price: 299000, oldPrice: 449000,
+    color: ['#2a1a14', '#4a2e20'],
+    icon: 'A',
+    rating: 4.6, students: 189,
+  },
+];
+
+let activeFilter = 'all';
+let searchQuery = '';
+
+function formatPrice(p) {
+  return 'Rp ' + p.toLocaleString('id-ID');
+}
+
+function renderCards() {
+  const grid = document.getElementById('course-grid');
+  let filtered = COURSES.filter(c => {
+    const matchFilter =
+      activeFilter === 'all' ? true :
+      activeFilter === 'gratis' ? c.free :
+      activeFilter === 'berbayar' ? !c.free :
+      c.catKey === activeFilter;
+    const matchSearch = searchQuery === '' ||
+      c.title.toLowerCase().includes(searchQuery) ||
+      c.cat.toLowerCase().includes(searchQuery) ||
+      c.desc.toLowerCase().includes(searchQuery);
+    return matchFilter && matchSearch;
+  });
+
+  document.getElementById('result-count').textContent =
+    `Menampilkan ${filtered.length} kelas`;
+
+  grid.innerHTML = '';
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="empty-state">
+      <div class="big">🔍</div>
+      <p>Tidak ada kelas yang ditemukan untuk filter ini.</p>
+    </div>`;
+    return;
+  }
+
+  filtered.forEach((c, i) => {
+    const card = document.createElement('div');
+    card.className = 'course-card';
+    card.style.animationDelay = `${i * 0.05}s`;
+    card.onclick = () => openModal(c.id);
+
+    card.innerHTML = `
+      <div class="card-thumb" style="background: linear-gradient(135deg, ${c.color[0]}, ${c.color[1]})">
+        <div class="card-thumb-inner">${c.icon}</div>
+        <span class="card-badge ${c.free ? 'badge-free' : 'badge-paid'}">${c.free ? 'Gratis' : 'Premium'}</span>
+        <span class="card-level">${c.level}</span>
+      </div>
+      <div class="card-body">
+        <div class="card-category">${c.cat}</div>
+        <div class="card-title">${c.title}</div>
+        <div class="card-desc">${c.desc}</div>
+        <div class="card-footer">
+          <div class="card-meta">
+            <span>⏱ ${c.duration}</span>
+            <span>★ ${c.rating}</span>
+            <span>👤 ${c.students}</span>
+          </div>
+          <div class="card-price">
+            ${c.free
+              ? '<span class="price-free">Gratis</span>'
+              : `<span class="price-old">${formatPrice(c.oldPrice)}</span><span class="price-paid">${formatPrice(c.price)}</span>`
+            }
+          </div>
+        </div>
+        <button class="enroll-btn ${c.free ? 'free' : ''}">${c.free ? 'Mulai Belajar' : 'Daftar Sekarang'}</button>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function setFilter(el, key) {
+  document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  activeFilter = key;
+  filterCourses();
+}
+
+function filterCourses() {
+  searchQuery = document.getElementById('search-input').value.toLowerCase();
+  renderCards();
+}
+
+// MODAL
+const modalData = {
+  'macro-intensive': {
+    cat: 'Ekonomi — Program Unggulan',
+    title: 'Macro Economics Intensive',
+    desc: 'Program paling komprehensif Davin University untuk memahami ekonomi makro global — dari teori Big Debt Cycle Ray Dalio, siklus kredit, dinamika FX, hingga cara membaca pasar obligasi. Dirancang untuk calon investor dan pengambil keputusan bisnis serius.',
+    level: 'Lanjutan', duration: '12 Minggu', sessions: '36 Sesi', cert: 'Premium',
+    free: false, price: 799000, oldPrice: 1299000,
+  }
+};
+
+let activeModalCourse = null;
+
+function openModal(id) {
+  const c = COURSES.find(x => x.id === id) || modalData[id];
+  if (!c) return;
+  activeModalCourse = c;
+
+  document.getElementById('modal-cat').textContent = c.cat;
+  document.getElementById('modal-title').textContent = c.title;
+  document.getElementById('modal-desc').textContent = c.desc;
+  document.getElementById('modal-level').textContent = c.level;
+  document.getElementById('modal-duration').textContent = c.duration;
+  document.getElementById('modal-sessions').textContent = c.sessions;
+  document.getElementById('modal-cert').textContent = c.cert;
+
+  const pw = document.getElementById('modal-price-wrap');
+  const enrollBtn = document.getElementById('modal-enroll-btn');
+  if (c.free) {
+    pw.innerHTML = `<span class="modal-price free-price">Gratis</span>`;
+    enrollBtn.textContent = 'Mulai Belajar';
+    enrollBtn.onclick = () => { closeModal(); /* free courses go straight to content — no payment needed */ alert('Kelas gratis dimulai! (demo)'); };
+  } else {
+    pw.innerHTML = `
+      ${c.oldPrice ? `<div style="font-size:.75rem;color:#bbb;text-decoration:line-through">${formatPrice(c.oldPrice)}</div>` : ''}
+      <span class="modal-price">${formatPrice(c.price)}</span>
+    `;
+    enrollBtn.textContent = 'Daftar Sekarang';
+    enrollBtn.onclick = () => { closeModal(); openPaymentModal(c); };
+  }
+
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); closeAuth(); closeQuoteModal(); closePaymentModal(); } });
+
+// ═══════════════════════════════════════════════════════════════
+// PAYMENT FLOW
+// ═══════════════════════════════════════════════════════════════
+const PAYMENT_METHODS = [
+  { id: 'bca',     name: 'BCA VA',        icon: '🏦', vaPrefix: '8808' },
+  { id: 'mandiri', name: 'Mandiri VA',    icon: '🏦', vaPrefix: '8909' },
+  { id: 'bni',     name: 'BNI VA',        icon: '🏦', vaPrefix: '8810' },
+  { id: 'gopay',   name: 'GoPay',         icon: '📱', vaPrefix: 'GOPAY' },
+  { id: 'ovo',     name: 'OVO',           icon: '📱', vaPrefix: 'OVO' },
+  { id: 'dana',    name: 'DANA',          icon: '📱', vaPrefix: 'DANA' },
+  { id: 'shopeepay', name: 'ShopeePay',   icon: '🛒', vaPrefix: 'SPAY' },
+  { id: 'qris',    name: 'QRIS',          icon: '⬜', vaPrefix: 'QRIS' },
+  { id: 'linkaja', name: 'LinkAja',       icon: '📱', vaPrefix: 'LINKAJA' },
+];
+
+let selectedPaymentMethod = null;
+let paymentCourse = null;
+
+function openPaymentModal(course) {
+  paymentCourse = course;
+  selectedPaymentMethod = null;
+
+  document.getElementById('pay-course-title').textContent = course.title;
+  document.getElementById('pay-course-cat').textContent = course.cat + ' · ' + course.level;
+  document.getElementById('pay-course-price').textContent = formatPrice(course.price);
+
+  // Render payment method options
+  const grid = document.getElementById('payment-methods-grid');
+  grid.innerHTML = '';
+  PAYMENT_METHODS.forEach(m => {
+    const opt = document.createElement('div');
+    opt.className = 'payment-method-option';
+    opt.onclick = () => selectPaymentMethod(m.id, opt);
+    opt.innerHTML = `
+      <div class="payment-method-icon">${m.icon}</div>
+      <div class="payment-method-name">${m.name}</div>
+    `;
+    grid.appendChild(opt);
+  });
+
+  document.getElementById('payment-continue-btn').disabled = true;
+  goToPaymentStep1();
+  document.getElementById('payment-modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function selectPaymentMethod(id, el) {
+  selectedPaymentMethod = id;
+  document.querySelectorAll('.payment-method-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('payment-continue-btn').disabled = false;
+}
+
+function generateVA() {
+  const method = PAYMENT_METHODS.find(m => m.id === selectedPaymentMethod);
+  const randomDigits = Math.floor(100000000000 + Math.random() * 899999999999).toString();
+  if (['gopay','ovo','dana','shopeepay','linkaja','qris'].includes(method.id)) {
+    return { label: method.name, number: `${method.vaPrefix}-${randomDigits.slice(0,8)}` };
+  }
+  return { label: `Virtual Account ${method.name}`, number: randomDigits.match(/.{1,4}/g).join(' ') };
+}
+
+function goToPaymentStep1() {
+  document.getElementById('payment-step-1').classList.remove('hidden');
+  document.getElementById('payment-step-2').classList.add('hidden');
+  document.getElementById('payment-step-3').classList.add('hidden');
+  document.getElementById('payment-summary-box').classList.remove('hidden');
+  setActiveCrumb(1);
+}
+
+function goToPaymentStep2() {
+  if (!selectedPaymentMethod) return;
+  const va = generateVA();
+  document.getElementById('va-method-label').textContent = va.label;
+  document.getElementById('va-number').textContent = va.number;
+
+  document.getElementById('payment-step-1').classList.add('hidden');
+  document.getElementById('payment-step-2').classList.remove('hidden');
+  document.getElementById('payment-step-3').classList.add('hidden');
+  setActiveCrumb(2);
+}
+
+function copyVA() {
+  const vaText = document.getElementById('va-number').textContent;
+  navigator.clipboard?.writeText(vaText.replace(/\s/g,''));
+  const btn = document.querySelector('.va-copy-btn');
+  const original = btn.textContent;
+  btn.textContent = 'Tersalin!';
+  setTimeout(() => { btn.textContent = original; }, 1500);
+}
+
+function confirmPayment() {
+  const email = document.getElementById('payment-email').value.trim();
+  if (!email || !email.includes('@')) {
+    alert('Masukkan email yang valid untuk menerima modul kelas.');
+    return;
+  }
+
+  document.getElementById('pay-success-course').textContent = paymentCourse.title;
+  document.getElementById('pay-success-email').textContent = email;
+
+  document.getElementById('payment-step-1').classList.add('hidden');
+  document.getElementById('payment-step-2').classList.add('hidden');
+  document.getElementById('payment-step-3').classList.remove('hidden');
+  document.getElementById('payment-summary-box').classList.add('hidden');
+  setActiveCrumb(3);
+}
+
+function setActiveCrumb(step) {
+  [1,2,3].forEach(n => {
+    document.getElementById(`crumb-${n}`).classList.toggle('active', n === step);
+  });
+}
+
+function closePaymentModal() {
+  document.getElementById('payment-modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+  document.getElementById('payment-email').value = '';
+}
+
+function closePaymentModalOutside(e) {
+  if (e.target === document.getElementById('payment-modal-overlay')) closePaymentModal();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// AUTH SYSTEM (in-memory — resets on page reload)
+// ═══════════════════════════════════════════════════════════════
+let users = {}; // { username: { name, password } }
+let currentUser = null;
+
+function openAuth(tab) {
+  document.getElementById('auth-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  switchAuthTab(tab || 'signup');
+  document.getElementById('auth-error').classList.remove('show');
+}
+
+function closeAuth() {
+  document.getElementById('auth-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeAuthOutside(e) {
+  if (e.target === document.getElementById('auth-overlay')) closeAuth();
+}
+
+function switchAuthTab(tab) {
+  const isSignup = tab === 'signup';
+  document.getElementById('tab-signup').classList.toggle('active', isSignup);
+  document.getElementById('tab-signin').classList.toggle('active', !isSignup);
+  document.getElementById('form-signup').classList.toggle('hidden', !isSignup);
+  document.getElementById('form-signin').classList.toggle('hidden', isSignup);
+  document.getElementById('auth-switch-text').innerHTML = isSignup
+    ? 'Sudah punya akun? <a onclick="switchAuthTab(\'signin\')">Sign In di sini</a>'
+    : 'Belum punya akun? <a onclick="switchAuthTab(\'signup\')">Sign Up di sini</a>';
+  document.getElementById('auth-error').classList.remove('show');
+}
+
+function showAuthError(msg) {
+  const el = document.getElementById('auth-error');
+  el.textContent = msg;
+  el.classList.add('show');
+}
+
+function handleSignup(e) {
+  e.preventDefault();
+  const name = document.getElementById('signup-name').value.trim();
+  const username = document.getElementById('signup-username').value.trim().toLowerCase();
+  const password = document.getElementById('signup-password').value;
+
+  if (!name || !username || !password) {
+    showAuthError('Semua kolom wajib diisi.');
+    return;
+  }
+  if (password.length < 6) {
+    showAuthError('Password minimal 6 karakter.');
+    return;
+  }
+  if (users[username]) {
+    showAuthError('Username sudah dipakai. Coba username lain.');
+    return;
+  }
+
+  users[username] = { name, password };
+  loginAs(username);
+  closeAuth();
+  document.getElementById('form-signup').reset();
+}
+
+function handleSignin(e) {
+  e.preventDefault();
+  const username = document.getElementById('signin-username').value.trim().toLowerCase();
+  const password = document.getElementById('signin-password').value;
+
+  const user = users[username];
+  if (!user || user.password !== password) {
+    showAuthError('Username atau password salah.');
+    return;
+  }
+
+  loginAs(username);
+  closeAuth();
+  document.getElementById('form-signin').reset();
+}
+
+function loginAs(username) {
+  currentUser = username;
+  const user = users[username];
+
+  // Update nav
+  document.getElementById('nav-auth-area').innerHTML = `
+    <div class="nav-user-pill" onclick="document.getElementById('dashboard-banner').scrollIntoView({behavior:'smooth'})">
+      <div class="nav-avatar">${user.name.charAt(0).toUpperCase()}</div>
+      <span class="nav-username">${user.name.split(' ')[0]}</span>
+    </div>
+  `;
+
+  // Show dashboard banner
+  document.getElementById('dashboard-greeting-name').textContent = `Selamat datang, ${user.name.split(' ')[0]}!`;
+  document.getElementById('dashboard-banner').classList.remove('hidden');
+}
+
+function logout() {
+  currentUser = null;
+  document.getElementById('dashboard-banner').classList.add('hidden');
+  document.getElementById('nav-auth-area').innerHTML = `
+    <button class="nav-cta" id="nav-signup-btn" onclick="openAuth('signup')">Sign Up Free</button>
+  `;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// QUOTE SECTION (generic illustrated avatars — no real public figures)
+// ═══════════════════════════════════════════════════════════════
+const QUOTES = [
+  {
+    id: 'q1',
+    initials: 'RD',
+    gradient: ['#2D5C47', '#1d3a2f'],
+    text: '"The biggest mistake investors make is to believe that what happened in the recent past is likely to persist."',
+    author: 'Investor Makro Senior',
+    role: 'Pendiri Dana Lindung Nilai Global',
+    context: 'Kutipan ini menekankan bahaya recency bias dalam investasi — kecenderungan investor untuk mengasumsikan tren pasar saat ini akan terus berlanjut tanpa akhir. Dalam konteks pasar Indonesia, ini relevan saat investor terlalu yakin dengan satu arah tren IHSG atau sektor tertentu tanpa mempertimbangkan siklus ekonomi yang lebih besar.'
+  },
+  {
+    id: 'q2',
+    initials: 'WB',
+    gradient: ['#2D4A62', '#1d2c3a'],
+    text: '"Price is what you pay. Value is what you get."',
+    author: 'Investor Value Legendaris',
+    role: 'CEO Konglomerat Investasi',
+    context: 'Prinsip dasar value investing: harga saham di pasar belum tentu mencerminkan nilai intrinsik perusahaan. Inilah alasan metode valuasi seperti Graham Number, DCF, dan P/BV penting dipelajari — supaya investor bisa membedakan antara saham yang "murah" karena harganya turun, dan saham yang benar-benar undervalued.'
+  },
+  {
+    id: 'q3',
+    initials: 'PL',
+    gradient: ['#624632', '#3a2a1d'],
+    text: '"Risk comes from not knowing what you\'re doing."',
+    author: 'Pakar Manajemen Risiko',
+    role: 'Penulis & Praktisi Keuangan',
+    context: 'Risiko terbesar dalam investasi bukan dari volatilitas pasar, melainkan dari ketidaktahuan investor terhadap apa yang mereka beli. Edukasi finansial — memahami laporan keuangan, model bisnis, dan siklus makro — adalah cara paling efektif untuk mengurangi risiko, bukan sekadar diversifikasi membabi buta.'
+  },
+  {
+    id: 'q4',
+    initials: 'JM',
+    gradient: ['#463262', '#2a1d3a'],
+    text: '"The four most dangerous words in investing are: this time it\'s different."',
+    author: 'Ahli Sejarah Pasar Modal',
+    role: 'Mantan Manajer Dana Institusi',
+    context: 'Sejarah pasar keuangan cenderung berulang dalam pola, meski detailnya berbeda setiap siklus. Saat investor merasa "kali ini berbeda" untuk membenarkan valuasi yang ekstrem atau mengabaikan sinyal risiko, itu seringkali menjadi tanda peringatan menjelang koreksi besar.'
+  },
+  {
+    id: 'q5',
+    initials: 'CT',
+    gradient: ['#2E2620', '#1a1614'],
+    text: '"In the short run, the market is a voting machine. In the long run, it\'s a weighing machine."',
+    author: 'Bapak Analisis Sekuritas Modern',
+    role: 'Akademisi & Investor',
+    context: 'Dalam jangka pendek, harga saham dipengaruhi sentimen dan spekulasi ("voting"). Namun dalam jangka panjang, harga akan kembali mencerminkan fundamental perusahaan yang sesungguhnya ("weighing"). Ini menjadi dasar mengapa analisis fundamental tetap relevan meski pasar sering bergerak liar dalam jangka pendek.'
+  },
+  {
+    id: 'q6',
+    initials: 'AM',
+    gradient: ['#4A2E20', '#2a1a14'],
+    text: '"Compound interest is the eighth wonder of the world. He who understands it, earns it."',
+    author: 'Ilmuwan & Pemikir Finansial',
+    role: 'Pelopor Teori Bunga Berbunga',
+    context: 'Kekuatan bunga berbunga (compounding) adalah konsep paling fundamental dalam membangun kekayaan jangka panjang. Konsisten berinvestasi sejak usia muda dengan return yang wajar, jika dibiarkan compound selama dekade, hasilnya jauh lebih besar dibanding mencoba "menang besar" dalam waktu singkat.'
+  },
+];
+
+function renderQuotes() {
+  const grid = document.getElementById('quote-grid');
+  grid.innerHTML = '';
+  QUOTES.forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'quote-card';
+    card.style.animationDelay = `${i * 0.05}s`;
+    card.onclick = () => openQuoteModal(q.id);
+    card.innerHTML = `
+      <div class="quote-avatar" style="background: linear-gradient(135deg, ${q.gradient[0]}, ${q.gradient[1]})">${q.initials}</div>
+      <div class="quote-text">${q.text}</div>
+      <div class="quote-author">${q.author}</div>
+      <div class="quote-role">${q.role}</div>
+      <div class="quote-tap-hint">Tap untuk baca konteks →</div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function openQuoteModal(id) {
+  const q = QUOTES.find(x => x.id === id);
+  if (!q) return;
+  document.getElementById('quote-detail-avatar').style.background = `linear-gradient(135deg, ${q.gradient[0]}, ${q.gradient[1]})`;
+  document.getElementById('quote-detail-avatar').textContent = q.initials;
+  document.getElementById('quote-detail-text').textContent = q.text;
+  document.getElementById('quote-detail-author').textContent = q.author;
+  document.getElementById('quote-detail-role').textContent = q.role;
+  document.getElementById('quote-detail-context').textContent = q.context;
+  document.getElementById('quote-modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeQuoteModal() {
+  document.getElementById('quote-modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeQuoteModalOutside(e) {
+  if (e.target === document.getElementById('quote-modal-overlay')) closeQuoteModal();
+}
+
+// INIT
+renderCards();
+renderQuotes();
+</script>
+</body>
+</html>
